@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, Suspense } from 'react'
 import { useSearchParams } from 'next/navigation'
 import Image from 'next/image'
 import { 
@@ -13,7 +13,7 @@ import {
   YouTubeVideo 
 } from '@/lib/youtube'
 
-export default function QuranRecitationPage() {
+function QuranRecitationContent() {
   const searchParams = useSearchParams()
   const [playlists, setPlaylists] = useState<YouTubePlaylist[]>([])
   const [allVideos, setAllVideos] = useState<YouTubeVideo[]>([])
@@ -600,5 +600,13 @@ export default function QuranRecitationPage() {
         }
       `}</style>
     </>
+  )
+}
+
+export default function QuranRecitationPage() {
+  return (
+    <Suspense fallback={<div className="preloader"><div className="vertical-centered-box"><div className="content"><div className="loader-circle"></div><div className="loader-line-mask"><div className="loader-line"></div></div></div></div></div>}>
+      <QuranRecitationContent />
+    </Suspense>
   )
 }
